@@ -1,0 +1,14 @@
+[project]
+name = "solana-mcp-server"
+version = "0.1.0"
+description = "MCP-Server für Solana-Blockchain-Daten — gibt AI-Agents Zugriff auf Wallets, Token-Preise, DeFi-Yields und Sicherheitschecks"
+requires-python = ">=3.11"
+dependencies = [
+    "mcp[cli]>=1.9.0",
+    "httpx>=0.27.0",
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.12.0",
+]
+
+[project.scripts]
+solana-mcp = "src.server:main"
