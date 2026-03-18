@@ -36,7 +36,7 @@ def register_safety_tools(mcp: FastMCP):
             "warnings": [],
         }
 
-        # 1. RugCheck Report
+        # 1. RugCheck Report (optional — braucht gültigen API-Key)
         try:
             report = await _rugcheck.get_token_report_summary(mint)
             result["rugcheck"] = {
