@@ -13,10 +13,16 @@ class RugCheckClient:
         self._base = settings.rugcheck_base_url
 
     def _headers(self) -> dict:
-        """Request-Headers mit optionalem API-Key."""
+        """Request-Headers mit optionalem API-Key.
+
+        API ist öffentlich — Key nur nötig falls Rate-Limits erreicht werden.
+        Placeholder-Werte werden ignoriert um 401-Fehler zu vermeiden.
+        """
         headers = {}
-        if settings.rugcheck_api_key:
-            headers["X-API-KEY"] = settings.rugcheck_api_key
+        key = settings.rugcheck_api_key
+        # Nur echte Keys senden, keine Placeholder
+        if key and not key.startswith("dein-"):
+            headers["X-API-KEY"] = key
         return headers
 
     async def get_token_report_summary(self, mint: str) -> dict:
