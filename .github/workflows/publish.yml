@@ -1,0 +1,35 @@
+# Automatisch auf PyPI veröffentlichen wenn ein GitHub Release erstellt wird
+name: Publish to PyPI
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  id-token: write  # Nötig für Trusted Publishing
+
+jobs:
+  publish:
+    name: Build & Upload auf PyPI
+    runs-on: ubuntu-latest
+
+    environment:
+      name: pypi
+      url: https://pypi.org/p/solana-mcp-server
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python einrichten
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Build-Tools installieren
+        run: pip install build
+
+      - name: Paket bauen
+        run: python -m build
+
+      - name: Auf PyPI veröffentlichen
+        uses: pypa/gh-action-pypi-publish@release/v1
