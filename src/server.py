@@ -8,6 +8,7 @@ from src.tools.wallet import register_wallet_tools
 from src.tools.token import register_token_tools
 from src.tools.defi import register_defi_tools
 from src.tools.safety import register_safety_tools
+from src.tools.whale import register_whale_tools
 from src.analytics import track_call, get_stats
 
 logging.basicConfig(level=logging.INFO)
@@ -26,6 +27,7 @@ register_wallet_tools(mcp)
 register_token_tools(mcp)
 register_defi_tools(mcp)
 register_safety_tools(mcp)
+register_whale_tools(mcp)
 
 
 # Analytics-Tool — zeigt Nutzungsstatistiken
