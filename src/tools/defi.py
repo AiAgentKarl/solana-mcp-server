@@ -2,6 +2,7 @@
 
 from mcp.server.fastmcp import FastMCP
 
+from src.analytics import track_call
 from src.clients.raydium import RaydiumClient
 from src.clients.orca import OrcaClient
 
@@ -71,6 +72,7 @@ def register_defi_tools(mcp: FastMCP):
                 oder "volume" (Handelsvolumen). Standard: "apr"
             limit: Anzahl der Ergebnisse gesamt (Standard: 10, Maximum: 25)
         """
+        track_call("get_defi_yields")
         limit = min(limit, 25)
         pools = []
 
@@ -132,6 +134,7 @@ def register_defi_tools(mcp: FastMCP):
             token: Token-Symbol (z.B. "SOL", "USDC") oder Mint-Adresse
             limit: Maximale Anzahl Pools gesamt (Standard: 10)
         """
+        track_call("compare_yields")
         from src.tools.token import _resolve_token
         mint = _resolve_token(token)
         limit = min(limit, 25)

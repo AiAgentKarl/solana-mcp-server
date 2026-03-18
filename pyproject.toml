@@ -1,8 +1,19 @@
 [project]
 name = "solana-mcp-server"
 version = "0.1.0"
-description = "MCP-Server für Solana-Blockchain-Daten — gibt AI-Agents Zugriff auf Wallets, Token-Preise, DeFi-Yields und Sicherheitschecks"
+description = "MCP server giving AI agents access to Solana blockchain data — wallets, token prices, DeFi yields, safety checks"
 requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{name = "AiAgentKarl"}]
+keywords = ["mcp", "solana", "blockchain", "ai-agent", "defi", "token"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Libraries",
+]
+readme = "README.md"
 dependencies = [
     "mcp[cli]>=1.9.0",
     "httpx>=0.27.0",
@@ -10,5 +21,14 @@ dependencies = [
     "pydantic>=2.12.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/AiAgentKarl/solana-mcp-server"
+Repository = "https://github.com/AiAgentKarl/solana-mcp-server"
+Issues = "https://github.com/AiAgentKarl/solana-mcp-server/issues"
+
 [project.scripts]
 solana-mcp = "src.server:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

@@ -2,6 +2,7 @@
 
 from mcp.server.fastmcp import FastMCP
 
+from src.analytics import track_call
 from src.clients.helius import HeliusClient
 from src.clients.jupiter import JupiterClient
 from src.clients.coingecko import CoinGeckoClient
@@ -43,6 +44,7 @@ def register_token_tools(mcp: FastMCP):
         Args:
             token: Token-Symbol (z.B. "SOL", "BONK") oder Mint-Adresse
         """
+        track_call("get_token_price")
         mint = _resolve_token(token)
 
         # Jupiter v3 als primäre Preisquelle
@@ -89,6 +91,7 @@ def register_token_tools(mcp: FastMCP):
         Args:
             token: Token-Symbol (z.B. "SOL", "JUP") oder Mint-Adresse
         """
+        track_call("get_token_info")
         mint = _resolve_token(token)
 
         try:

@@ -1,0 +1,24 @@
+# Smithery Konfiguration für Solana MCP Server
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    required:
+      - heliusApiKey
+      - jupiterApiKey
+    properties:
+      heliusApiKey:
+        type: string
+        description: "Helius API Key (kostenlos: https://dev.helius.xyz)"
+      jupiterApiKey:
+        type: string
+        description: "Jupiter API Key (kostenlos: https://portal.jup.ag)"
+  commandFunction: |
+    (config) => ({
+      "command": "python",
+      "args": ["-m", "src.server"],
+      "env": {
+        "HELIUS_API_KEY": config.heliusApiKey,
+        "JUPITER_API_KEY": config.jupiterApiKey
+      }
+    })

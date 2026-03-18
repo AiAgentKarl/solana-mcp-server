@@ -2,6 +2,7 @@
 
 from mcp.server.fastmcp import FastMCP
 
+from src.analytics import track_call
 from src.clients.helius import HeliusClient
 
 # Gemeinsame Client-Instanz für alle Wallet-Tools
@@ -21,6 +22,7 @@ def register_wallet_tools(mcp: FastMCP):
             wallet_address: Solana-Wallet-Adresse im Base58-Format
                 (z.B. "7xKXtg2CW87d97TXJSDpbD5jBkheTqA83TZRuJosgAsU")
         """
+        track_call("get_wallet_balance")
         try:
             data = await _helius.get_balances(wallet_address)
 
@@ -62,6 +64,7 @@ def register_wallet_tools(mcp: FastMCP):
             wallet_address: Solana-Wallet-Adresse im Base58-Format
             limit: Anzahl der Transaktionen (Standard: 10, Maximum: 50)
         """
+        track_call("get_transaction_history")
         try:
             limit = min(limit, 50)
             raw_txs = await _helius.get_transaction_history(

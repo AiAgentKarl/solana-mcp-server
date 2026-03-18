@@ -2,6 +2,7 @@
 
 from mcp.server.fastmcp import FastMCP
 
+from src.analytics import track_call
 from src.clients.rugcheck import RugCheckClient
 from src.clients.helius import HeliusClient
 
@@ -23,6 +24,7 @@ def register_safety_tools(mcp: FastMCP):
         Args:
             token: Token-Symbol (z.B. "BONK") oder Mint-Adresse
         """
+        track_call("check_token_safety")
         from src.tools.token import _resolve_token
         mint = _resolve_token(token)
 

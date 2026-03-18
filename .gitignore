@@ -1,6 +1,7 @@
 .env
 keys.env
 .mcp.json
+analytics.json
 __pycache__/
 *.pyc
 *.pyo

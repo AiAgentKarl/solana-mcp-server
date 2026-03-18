@@ -1,6 +1,10 @@
 # Solana MCP Server
 
+<!-- mcp-name: io.github.aiagentkarl/solana-mcp-server -->
+
 MCP-Server der AI-Agents Zugriff auf Solana-Blockchain-Daten gibt: Wallet-Balances, Token-Preise, DeFi-Yields und Sicherheitschecks.
+
+[![Smithery](https://smithery.ai/badge/@AiAgentKarl/solana-mcp-server)](https://smithery.ai/server/@AiAgentKarl/solana-mcp-server)
 
 ## Features
 
@@ -19,7 +23,7 @@ MCP-Server der AI-Agents Zugriff auf Solana-Blockchain-Daten gibt: Wallet-Balanc
 ### 1. Repository klonen und einrichten
 
 ```bash
-git clone https://github.com/DEIN-USERNAME/solana-mcp-server.git
+git clone https://github.com/AiAgentKarl/solana-mcp-server.git
 cd solana-mcp-server
 
 # Virtual Environment erstellen
