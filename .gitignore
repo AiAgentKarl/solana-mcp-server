@@ -12,3 +12,20 @@ venv/
 dist/
 build/
 .claude/
+
+# Andere MCP-Projekte (haben eigene Git-Repos)
+Agriculture_MCP/
+Analytics_MCP/
+Aviation_MCP/
+Company_MCP/
+Cybersecurity_MCP/
+Directory_MCP/
+Germany_MCP/
+Health_MCP/
+Memory_MCP/
+Payment_Gateway_MCP/
+Reputation_MCP/
+Space_MCP/
+Weather_MCP/
+Workflow_MCP/
+github_profile/
