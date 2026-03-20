@@ -6,6 +6,8 @@ MCP-Server der AI-Agents Zugriff auf Solana-Blockchain-Daten gibt: Wallet-Balanc
 
 [![Smithery](https://smithery.ai/badge/@AiAgentKarl/solana-mcp-server)](https://smithery.ai/server/@AiAgentKarl/solana-mcp-server)
 
+[![solana-mcp-server MCP server](https://glama.ai/mcp/servers/AiAgentKarl/solana-mcp-server/badges/card.svg)](https://glama.ai/mcp/servers/AiAgentKarl/solana-mcp-server)
+
 ## Features
 
 | Tool | Beschreibung |
