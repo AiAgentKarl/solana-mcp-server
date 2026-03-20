@@ -1,0 +1,78 @@
+# Docker Compose fuer die Top-5 MCP-Server
+# Alle Server laufen als SSE-Endpunkte auf verschiedenen Ports
+
+version: "3.9"
+
+services:
+  # Solana MCP Server — Blockchain-Daten, DeFi, Token-Sicherheit
+  solana:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: aiagentkarl/solana-mcp-server:latest
+    ports:
+      - "8001:8000"
+    environment:
+      - MCP_TRANSPORT=sse
+      - MCP_PORT=8000
+    env_file:
+      - .env
+    restart: unless-stopped
+
+  # Weather MCP Server — Wetter, Vorhersagen, Luftqualitaet
+  weather:
+    build:
+      context: ./Weather_MCP
+      dockerfile: Dockerfile
+    image: aiagentkarl/openmeteo-mcp-server:latest
+    ports:
+      - "8002:8000"
+    environment:
+      - MCP_TRANSPORT=sse
+      - MCP_PORT=8000
+    restart: unless-stopped
+
+  # Agent Memory MCP Server — Persistenter Speicher
+  memory:
+    build:
+      context: ./Memory_MCP
+      dockerfile: Dockerfile
+    image: aiagentkarl/agent-memory-mcp-server:latest
+    ports:
+      - "8003:8000"
+    environment:
+      - MCP_TRANSPORT=sse
+      - MCP_PORT=8000
+    volumes:
+      - memory_data:/app/data
+    restart: unless-stopped
+
+  # Cybersecurity MCP Server — CVE, Schwachstellen
+  cybersecurity:
+    build:
+      context: ./Cybersecurity_MCP
+      dockerfile: Dockerfile
+    image: aiagentkarl/cybersecurity-mcp-server:latest
+    ports:
+      - "8004:8000"
+    environment:
+      - MCP_TRANSPORT=sse
+      - MCP_PORT=8000
+    restart: unless-stopped
+
+  # Policy Gateway MCP — Compliance, PII-Erkennung, Guardrails
+  policy-gateway:
+    build:
+      context: ./Policy_Gateway_MCP
+      dockerfile: Dockerfile
+    image: aiagentkarl/agent-policy-gateway-mcp:latest
+    ports:
+      - "8005:8000"
+    environment:
+      - MCP_TRANSPORT=sse
+      - MCP_PORT=8000
+    restart: unless-stopped
+
+volumes:
+  memory_data:
+    driver: local
