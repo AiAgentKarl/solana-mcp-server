@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agent Marketplace — Discover Free AI Agents</title>
+    <meta name="description" content="Discover free, open source AI agents built with MCP. Browse agents by capability, view source code on GitHub. All agents are free.">
+    <meta name="keywords" content="AI agent marketplace, free AI agents, open source agents, MCP agents, autonomous agents, AI services">
+    <meta name="author" content="AiAgentKarl">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://aiagentkarl.github.io/agent-marketplace/">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Agent Marketplace — Discover Free AI Agents">
+    <meta property="og:description" content="Discover free, open source AI agents built with MCP. Browse agents by capability, view source code on GitHub.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://aiagentkarl.github.io/agent-marketplace/">
+    <meta property="og:site_name" content="Agent Marketplace">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Agent Marketplace — Discover Free AI Agents">
+    <meta name="twitter:description" content="Discover free, open source AI agents built with MCP. Browse agents by capability, view source code on GitHub.">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Agent Marketplace",
+        "description": "Discover free, open source AI agents built with MCP. Browse agents by capability, view source code on GitHub.",
+        "url": "https://aiagentkarl.github.io/agent-marketplace/",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Web",
+        "author": {
+            "@type": "Organization",
+            "name": "AiAgentKarl",
+            "url": "https://github.com/AiAgentKarl"
+        },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD",
+            "description": "All agents are free and open source"
+        }
+    }
+    </script>
+
+    <style>
+        /* --- Reset & Base --- */
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a2e;
+            --bg-card-hover: #222240;
+            --border: #2a2a4a;
+            --text-primary: #e8e8f0;
+            --text-secondary: #9898b0;
+            --text-muted: #6a6a82;
+            --accent: #6c5ce7;
+            --accent-light: #a29bfe;
+            --accent-glow: rgba(108, 92, 231, 0.3);
+            --green: #00d2a0;
+            --green-glow: rgba(0, 210, 160, 0.2);
+            --orange: #f39c12;
+            --red: #e74c3c;
+            --tag-bg: rgba(108, 92, 231, 0.15);
+            --tag-border: rgba(108, 92, 231, 0.3);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        a { color: var(--accent-light); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+
+        /* --- Beta Banner --- */
+        .beta-banner {
+            background: linear-gradient(90deg, rgba(108, 92, 231, 0.15), rgba(0, 210, 160, 0.1));
+            border-bottom: 1px solid var(--border);
+            padding: 10px 20px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .beta-banner strong {
+            color: var(--accent-light);
+        }
+
+        /* --- Header / Hero --- */
+        .hero {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: linear-gradient(180deg, rgba(108, 92, 231, 0.08) 0%, transparent 100%);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 800;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 32px;
+        }
+
+        /* --- Stats Bar --- */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            padding: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent-light);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- Controls --- */
+        .controls {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 24px 20px;
+        }
+
+        .search-row {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .search-bar {
+            flex: 1;
+            min-width: 240px;
+            padding: 12px 20px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-bar:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .search-bar::placeholder { color: var(--text-muted); }
+
+        .sort-select {
+            padding: 12px 16px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .sort-select:focus {
+            border-color: var(--accent);
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 18px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent);
+            color: var(--text-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #fff;
+        }
+
+        .filter-count {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-left: 4px;
+        }
+
+        /* --- Agent Grid --- */
+        .agent-grid {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .agent-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 24px;
+            transition: all 0.25s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .agent-card:hover {
+            border-color: var(--accent);
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow), 0 0 30px var(--accent-glow);
+        }
+
+        .agent-card.featured {
+            border-color: var(--accent);
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(108, 92, 231, 0.08) 100%);
+        }
+
+        .agent-card.featured::before {
+            content: 'FEATURED';
+            position: absolute;
+            top: 12px;
+            right: -28px;
+            background: var(--accent);
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 32px;
+            transform: rotate(45deg);
+            letter-spacing: 1px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+
+        .agent-avatar {
+            width: 52px;
+            height: 52px;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            border: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .agent-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .agent-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .agent-author {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .agent-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .status-available {
+            background: var(--green-glow);
+            color: var(--green);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .status-available .status-dot { background: var(--green); }
+
+        .agent-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 14px;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .agent-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .tag {
+            padding: 4px 10px;
+            background: var(--tag-bg);
+            border: 1px solid var(--tag-border);
+            border-radius: 6px;
+            font-size: 0.78rem;
+            color: var(--accent-light);
+            white-space: nowrap;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 6px;
+        }
+
+        .badge-free {
+            background: var(--green-glow);
+            color: var(--green);
+        }
+
+        .badge-new {
+            background: rgba(243, 156, 18, 0.15);
+            color: var(--orange);
+        }
+
+        .github-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 20px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .github-btn:hover {
+            background: var(--accent-light);
+            box-shadow: 0 0 16px var(--accent-glow);
+            text-decoration: none;
+        }
+
+        .github-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        /* --- List Your Agent Section --- */
+        .list-section {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .list-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(108, 92, 231, 0.06) 100%);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 48px;
+            text-align: center;
+        }
+
+        .list-card h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+        }
+
+        .list-card p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 24px;
+        }
+
+        .list-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+            text-align: center;
+        }
+
+        .step {
+            padding: 20px;
+        }
+
+        .step-num {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            color: #fff;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+        }
+
+        .step h3 {
+            font-size: 1rem;
+            margin-bottom: 6px;
+        }
+
+        .step p {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .cta-btn {
+            display: inline-block;
+            padding: 14px 36px;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .cta-btn:hover {
+            background: var(--accent-light);
+            box-shadow: 0 0 24px var(--accent-glow);
+            text-decoration: none;
+        }
+
+        /* --- Footer --- */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover { color: var(--accent-light); }
+
+        .footer-copy {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        /* --- No Results --- */
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            display: none;
+        }
+
+        .no-results.visible { display: block; }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .hero { padding: 40px 16px 32px; }
+            .stats-bar { gap: 24px; }
+            .stat-number { font-size: 1.4rem; }
+            .agent-grid { grid-template-columns: 1fr; }
+            .list-card { padding: 32px 20px; }
+            .footer-links { gap: 16px; }
+        }
+
+        @media (max-width: 480px) {
+            .search-row { flex-direction: column; }
+            .sort-select { width: 100%; }
+        }
+
+        /* --- Animations --- */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .agent-card {
+            animation: fadeInUp 0.4s ease-out both;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Beta Banner -->
+<div class="beta-banner">
+    <strong>Early Beta</strong> — This marketplace is in early beta. All listed agents are free and open source.
+</div>
+
+<!-- Hero -->
+<section class="hero">
+    <h1>Agent Marketplace</h1>
+    <p>Discover free, open source AI agents built with MCP. Browse by capability, view source code on GitHub.</p>
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-number">5</div>
+            <div class="stat-label">Agents</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">3</div>
+            <div class="stat-label">Categories</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">Free & Open Source</div>
+        </div>
+    </div>
+</section>
+
+<!-- Controls -->
+<div class="controls">
+    <div class="search-row">
+        <input type="text" class="search-bar" id="search" placeholder="Search agents by name or capability...">
+        <select class="sort-select" id="sort">
+            <option value="name">Sort by: Name</option>
+            <option value="category">Sort by: Category</option>
+        </select>
+    </div>
+    <div class="filter-row" id="filters">
+        <button class="filter-btn active" data-category="all">All<span class="filter-count"></span></button>
+        <button class="filter-btn" data-category="data-analysis">Data & Analysis<span class="filter-count"></span></button>
+        <button class="filter-btn" data-category="security">Security & Compliance<span class="filter-count"></span></button>
+        <button class="filter-btn" data-category="infrastructure">Agent Infrastructure<span class="filter-count"></span></button>
+    </div>
+</div>
+
+<!-- Agent Grid -->
+<div class="agent-grid" id="agent-grid"></div>
+
+<!-- No Results -->
+<div class="no-results" id="no-results">
+    No agents found matching your search. Try different keywords or clear the filter.
+</div>
+
+<!-- List Your Agent -->
+<section class="list-section" id="list-your-agent">
+    <div class="list-card">
+        <h2>List Your Agent</h2>
+        <p>Got a free, open source AI agent? Open a pull request on GitHub to add it to the marketplace.</p>
+        <div class="list-steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <h3>Build</h3>
+                <p>Create your MCP-compatible AI agent</p>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <h3>Publish</h3>
+                <p>Push your agent to GitHub and publish on PyPI or npm</p>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <h3>Submit</h3>
+                <p>Open a PR to add your agent to this marketplace</p>
+            </div>
+        </div>
+        <a href="https://github.com/AiAgentKarl" target="_blank" rel="noopener" class="cta-btn">View on GitHub</a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <div class="footer-links">
+        <a href="https://github.com/AiAgentKarl" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://agent-apis.vercel.app" target="_blank" rel="noopener">Vercel APIs</a>
+        <a href="https://aiagentkarl.github.io" target="_blank" rel="noopener">AI Agent Hub</a>
+        <a href="https://pypi.org/user/AiKarlo/" target="_blank" rel="noopener">PyPI Packages</a>
+        <a href="https://www.npmjs.com/~aiagentkarl" target="_blank" rel="noopener">npm Packages</a>
+        <a href="https://huggingface.co/aiagentkarl" target="_blank" rel="noopener">Hugging Face</a>
+    </div>
+    <div class="footer-copy">
+        &copy; 2026 AiAgentKarl &middot; Agent Marketplace &middot; All agents are free and open source
+    </div>
+</footer>
+
+<script>
+// --- Agent-Daten: Nur echte, existierende Agents ---
+const agents = [
+    {
+        name: "Weather Agent",
+        emoji: "\u26c5",
+        author: "AiAgentKarl",
+        desc: "Real-time weather data, 7-day forecasts, historical climate analysis. Powered by Open-Meteo with global coverage.",
+        tags: ["weather", "forecast", "climate", "geolocation"],
+        category: "data-analysis",
+        status: "available",
+        featured: true,
+        github: "https://github.com/AiAgentKarl/openmeteo-mcp-server"
+    },
+    {
+        name: "Crypto Agent",
+        emoji: "\u26d3\ufe0f",
+        author: "AiAgentKarl",
+        desc: "Solana blockchain data, token prices, DeFi yields, whale tracking, portfolio analysis. 11 specialized tools.",
+        tags: ["blockchain", "DeFi", "solana", "crypto"],
+        category: "data-analysis",
+        status: "available",
+        featured: true,
+        github: "https://github.com/AiAgentKarl/solana-mcp-server"
+    },
+    {
+        name: "Compliance Agent",
+        emoji: "\ud83d\udee1\ufe0f",
+        author: "AiAgentKarl",
+        desc: "GDPR, AI Act, and regulatory compliance checks. PII detection, audit logging, policy enforcement for AI systems.",
+        tags: ["GDPR", "AI Act", "compliance", "audit"],
+        category: "security",
+        status: "available",
+        featured: true,
+        github: "https://github.com/AiAgentKarl/agent-policy-gateway-mcp"
+    },
+    {
+        name: "Security Agent",
+        emoji: "\ud83d\udd10",
+        author: "AiAgentKarl",
+        desc: "PII scanning, threat intelligence, CVE monitoring, vulnerability assessment. Real-time cybersecurity data.",
+        tags: ["PII", "threats", "CVE", "cybersecurity"],
+        category: "security",
+        status: "available",
+        featured: true,
+        github: "https://github.com/AiAgentKarl/cybersecurity-mcp-server"
+    },
+    {
+        name: "Memory Agent",
+        emoji: "\ud83e\udde0",
+        author: "AiAgentKarl",
+        desc: "Persistent knowledge storage for AI agents. Store, retrieve, search, and manage facts across sessions.",
+        tags: ["memory", "knowledge", "storage", "persistence"],
+        category: "infrastructure",
+        status: "available",
+        featured: true,
+        github: "https://github.com/AiAgentKarl/agent-memory-mcp-server"
+    }
+];
+
+// --- Rendering ---
+const grid = document.getElementById('agent-grid');
+const searchInput = document.getElementById('search');
+const sortSelect = document.getElementById('sort');
+const filterBtns = document.querySelectorAll('.filter-btn');
+const noResults = document.getElementById('no-results');
+
+let activeCategory = 'all';
+
+// GitHub SVG-Icon
+const githubIcon = '<svg viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>';
+
+function renderCard(agent, index) {
+    const card = document.createElement('div');
+    card.className = 'agent-card' + (agent.featured ? ' featured' : '');
+    card.style.animationDelay = (index * 0.05) + 's';
+
+    card.innerHTML = `
+        <div class="card-header">
+            <div class="agent-avatar">${agent.emoji}</div>
+            <div class="agent-info">
+                <div class="agent-name">${agent.name}</div>
+                <div class="agent-author">by ${agent.author}</div>
+            </div>
+            <span class="agent-status status-${agent.status}">
+                <span class="status-dot"></span>Available
+            </span>
+        </div>
+        <div class="agent-desc">${agent.desc}</div>
+        <div class="agent-tags">
+            ${agent.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+        </div>
+        <div class="card-footer">
+            <div>
+                <span class="badge badge-free">Free / Open Source</span>
+                <span class="badge badge-new" style="margin-left:6px;">No reviews yet</span>
+            </div>
+        </div>
+        <div style="margin-top:14px;text-align:right;">
+            <a href="${agent.github}" target="_blank" rel="noopener" class="github-btn" onclick="event.stopPropagation()">${githubIcon} View on GitHub</a>
+        </div>
+    `;
+    return card;
+}
+
+function updateCounts() {
+    const categories = {};
+    agents.forEach(a => {
+        categories[a.category] = (categories[a.category] || 0) + 1;
+    });
+    filterBtns.forEach(btn => {
+        const cat = btn.dataset.category;
+        const countEl = btn.querySelector('.filter-count');
+        if (cat === 'all') {
+            countEl.textContent = ` (${agents.length})`;
+        } else if (categories[cat]) {
+            countEl.textContent = ` (${categories[cat]})`;
+        }
+    });
+}
+
+function getFilteredAgents() {
+    const query = searchInput.value.toLowerCase().trim();
+    const sortBy = sortSelect.value;
+
+    let filtered = agents.filter(a => {
+        // Kategorie-Filter
+        if (activeCategory !== 'all' && a.category !== activeCategory) return false;
+        // Suche
+        if (query) {
+            const searchable = (a.name + ' ' + a.desc + ' ' + a.tags.join(' ') + ' ' + a.author).toLowerCase();
+            return searchable.includes(query);
+        }
+        return true;
+    });
+
+    // Sortierung
+    filtered.sort((a, b) => {
+        switch (sortBy) {
+            case 'name': return a.name.localeCompare(b.name);
+            case 'category': return a.category.localeCompare(b.category);
+            default: return 0;
+        }
+    });
+
+    return filtered;
+}
+
+function render() {
+    grid.innerHTML = '';
+    const filtered = getFilteredAgents();
+
+    if (filtered.length === 0) {
+        noResults.classList.add('visible');
+    } else {
+        noResults.classList.remove('visible');
+        filtered.forEach((agent, i) => {
+            grid.appendChild(renderCard(agent, i));
+        });
+    }
+}
+
+// --- Events ---
+searchInput.addEventListener('input', render);
+sortSelect.addEventListener('change', render);
+
+filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeCategory = btn.dataset.category;
+        render();
+    });
+});
+
+// --- Init ---
+updateCounts();
+render();
+</script>
+
+</body>
+</html>
