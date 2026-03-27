@@ -1,151 +1,87 @@
-# Solana MCP Server
+# solana-mcp-server
 
-<!-- mcp-name: io.github.aiagentkarl/solana-mcp-server -->
+**Solana blockchain data for AI agents** — wallet balances, token prices, DeFi yields, whale tracking, and token safety checks.
 
-MCP-Server der AI-Agents Zugriff auf Solana-Blockchain-Daten gibt: Wallet-Balances, Token-Preise, DeFi-Yields und Sicherheitschecks.
-
+[![PyPI version](https://badge.fury.io/py/solana-mcp-server.svg)](https://pypi.org/project/solana-mcp-server/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Smithery](https://smithery.ai/badge/@AiAgentKarl/solana-mcp-server)](https://smithery.ai/server/@AiAgentKarl/solana-mcp-server)
 
-[![solana-mcp-server MCP server](https://glama.ai/mcp/servers/AiAgentKarl/solana-mcp-server/badges/card.svg)](https://glama.ai/mcp/servers/AiAgentKarl/solana-mcp-server)
+> Real-time Solana data from **Helius, Jupiter, CoinGecko, Raydium, Orca, and RugCheck**. Scam-pools auto-filtered (< $1,000 TVL).
 
-## Features
-
-| Tool | Beschreibung |
-|------|-------------|
-| `get_wallet_balance` | SOL- und Token-Balances einer Wallet abfragen |
-| `get_transaction_history` | Letzte Transaktionen einer Wallet (Enhanced Transactions) |
-| `get_token_price` | Aktueller Token-Preis via Jupiter (CoinGecko als Fallback) |
-| `get_token_info` | Token-Metadaten: Name, Symbol, Supply, Decimals |
-| `get_defi_yields` | Top DeFi-Pool-APYs von Raydium und Orca |
-| `compare_yields` | Yield-Vergleich für einen bestimmten Token über mehrere Protokolle |
-| `check_token_safety` | Sicherheitscheck: RugCheck-Score, Holder-Konzentration, Authorities |
-
-## Schnellstart
-
-### 1. Repository klonen und einrichten
+## Quick Start
 
 ```bash
-git clone https://github.com/AiAgentKarl/solana-mcp-server.git
-cd solana-mcp-server
-
-# Virtual Environment erstellen
-python -m venv .venv
-
-# Aktivieren
-# Windows:
-.venv\Scripts\activate
-# Linux/Mac:
-source .venv/bin/activate
-
-# Dependencies installieren
-pip install -r requirements.txt
+pip install solana-mcp-server
 ```
 
-### 2. API-Keys besorgen
-
-| API | URL | Kosten | Benötigt? |
-|-----|-----|--------|-----------|
-| Helius | https://dev.helius.xyz | Kostenlos (1M Credits/Mo) | Ja |
-| Jupiter | https://portal.jup.ag | Kostenlos | Ja |
-| CoinGecko | — | Kostenlos (30 Calls/Min) | Nein (kein Key nötig) |
-| Raydium | — | Kostenlos | Nein (kein Key nötig) |
-| Orca | — | Kostenlos | Nein (kein Key nötig) |
-| RugCheck | — | Kostenlos | Nein (API öffentlich) |
-
-### 3. Environment-Datei anlegen
-
-Erstelle eine `.env` oder `keys.env` im Projektordner:
-
-```env
-HELIUS_API_KEY=dein-helius-key
-JUPITER_API_KEY=dein-jupiter-key
-```
-
-### 4. Server starten
-
-```bash
-# Mit MCP Inspector testen (Web-UI zum Ausprobieren)
-mcp dev src/server.py
-
-# Oder direkt starten (stdio-Transport)
-python -m src.server
-```
-
-## Integration
-
-### Claude Code / Claude Desktop
-
-Erstelle eine `.mcp.json` im Projektordner (oder `claude_desktop_config.json` für Claude Desktop):
+Add to your MCP client config:
 
 ```json
 {
   "mcpServers": {
     "solana": {
-      "type": "stdio",
-      "command": "python",
-      "args": ["-m", "src.server"],
+      "command": "solana-server",
       "env": {
-        "HELIUS_API_KEY": "dein-helius-key",
-        "JUPITER_API_KEY": "dein-jupiter-key"
+        "HELIUS_API_KEY": "your-free-key-from-helius.dev"
       }
     }
   }
 }
 ```
 
-### Andere MCP-Clients
+Get your free Helius key at [dev.helius.xyz](https://dev.helius.xyz) (1M credits/month free).
 
-Der Server nutzt den **stdio-Transport** (Standard MCP). Jeder MCP-kompatible Client kann ihn einbinden — einfach `python -m src.server` als Kommando konfigurieren.
+## What Can You Do?
 
-## Architektur
+**Ask your AI agent things like:**
+- *"What tokens does this wallet hold?"*
+- *"What's the current price of SOL?"*
+- *"Show me the best DeFi yields on Solana right now"*
+- *"Is this token safe? Check the RugCheck score"*
+- *"What are whales doing with JUP?"*
+
+## 11 Tools
+
+| Tool | What it does |
+|------|-------------|
+| `get_wallet_balance` | SOL + token balances of any wallet |
+| `get_transaction_history` | Recent transactions with type and description |
+| `get_token_price` | Current USD price (Jupiter primary, CoinGecko fallback) |
+| `get_token_info` | Token metadata: name, symbol, supply, decimals |
+| `get_defi_yields` | Top DeFi pool APRs from Raydium + Orca |
+| `compare_yields` | Compare yields for a specific token across DEXs |
+| `check_token_safety` | RugCheck score, holder concentration, mint/freeze authority |
+| `get_whale_transactions` | Large transactions for a token |
+| `track_smart_wallet` | Track a whale wallet's holdings and activity |
+| `analyze_wallet_portfolio` | Full portfolio analysis with USD values |
+| `get_usage_stats` | Server usage statistics |
+
+## API Keys
+
+| API | Free Tier | Key Required? |
+|-----|-----------|---------------|
+| Helius | 1M credits/month | **Yes** (free) |
+| Jupiter | Unlimited | No |
+| CoinGecko | 30 calls/min | No |
+| Raydium | Unlimited | No |
+| Orca | Unlimited | No |
+| RugCheck | Unlimited | No |
+
+## Architecture
 
 ```
 src/
-├── server.py          # FastMCP Server — registriert alle Tools
-├── config.py          # Lädt API-Keys aus .env, Settings via Pydantic
-├── clients/           # Ein async HTTP-Client pro API
-│   ├── helius.py      # Helius (Wallet, Transactions, DAS)
-│   ├── jupiter.py     # Jupiter (Token-Preise)
-│   ├── coingecko.py   # CoinGecko (Preis-Fallback)
-│   ├── raydium.py     # Raydium (DeFi-Pools)
-│   ├── orca.py        # Orca (Whirlpools)
-│   └── rugcheck.py    # RugCheck (Token-Sicherheit)
-└── tools/             # MCP-Tool-Definitionen
-    ├── wallet.py      # get_wallet_balance, get_transaction_history
-    ├── token.py       # get_token_price, get_token_info
-    ├── defi.py        # get_defi_yields, compare_yields
-    └── safety.py      # check_token_safety
+├── server.py       # FastMCP server
+├── config.py       # API key config via .env
+├── clients/        # Async HTTP clients (one per API)
+└── tools/          # MCP tool definitions (wallet, token, defi, safety)
 ```
 
-## Tech Stack
+## Related Servers
 
-- **Python 3.13** + async/await
-- **MCP SDK** (FastMCP) — Tool-Registrierung und Transport
-- **httpx** — Async HTTP-Client
-- **Pydantic** — Settings-Validierung
+- [cybersecurity-mcp-server](https://pypi.org/project/cybersecurity-mcp-server/) — CVE database & vulnerability intelligence
+- [news-aggregator-mcp-server](https://pypi.org/project/news-aggregator-mcp-server/) — Multi-source news aggregation
 
-## API-Hinweise
-
-- **Helius Free Tier**: 1M Credits/Monat — reicht für normale Nutzung
-- **CoinGecko Free**: 30 Calls/Min, 10.000/Monat — wird nur als Fallback genutzt
-- **Raydium API**: Gelegentlich 500 Errors (serverseitig, nicht unser Problem)
-- **RugCheck**: Kein API-Key nötig, API ist öffentlich
-- **Scam-Filter**: DeFi-Pools mit < $1.000 TVL werden automatisch gefiltert
-
-## Lizenz
+## License
 
 MIT
-
----
-
-## More MCP Servers by AiAgentKarl
-
-| Category | Servers |
-|----------|---------|
-| 🔗 Blockchain | [Solana](https://github.com/AiAgentKarl/solana-mcp-server) |
-| 🌍 Data | [Weather](https://github.com/AiAgentKarl/weather-mcp-server) · [Germany](https://github.com/AiAgentKarl/germany-mcp-server) · [Agriculture](https://github.com/AiAgentKarl/agriculture-mcp-server) · [Space](https://github.com/AiAgentKarl/space-mcp-server) · [Aviation](https://github.com/AiAgentKarl/aviation-mcp-server) · [EU Companies](https://github.com/AiAgentKarl/eu-company-mcp-server) |
-| 🔒 Security | [Cybersecurity](https://github.com/AiAgentKarl/cybersecurity-mcp-server) · [Policy Gateway](https://github.com/AiAgentKarl/agent-policy-gateway-mcp) · [Audit Trail](https://github.com/AiAgentKarl/agent-audit-trail-mcp) |
-| 🤖 Agent Infra | [Memory](https://github.com/AiAgentKarl/agent-memory-mcp-server) · [Directory](https://github.com/AiAgentKarl/agent-directory-mcp-server) · [Hub](https://github.com/AiAgentKarl/mcp-appstore-server) · [Reputation](https://github.com/AiAgentKarl/agent-reputation-mcp-server) |
-| 🔬 Research | [Academic](https://github.com/AiAgentKarl/crossref-academic-mcp-server) · [LLM Benchmark](https://github.com/AiAgentKarl/llm-benchmark-mcp-server) · [Legal](https://github.com/AiAgentKarl/legal-court-mcp-server) |
-
-[→ Full catalog (40+ servers)](https://github.com/AiAgentKarl)
